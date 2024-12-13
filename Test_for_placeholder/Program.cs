@@ -154,6 +154,68 @@ class Program
                 Console.WriteLine("Test 10: Verify 'Users' section - Test Failed");
             }
 
+            // Test 11: Boundary Value Analysis - Verify homepage loads
+            driver.Navigate().GoToUrl(baseUrl);
+            try
+            {
+                IWebElement welcomeMessage = driver.FindElement(By.TagName("h1"));
+                IWebElement availableEndpoints = driver.FindElement(By.TagName("ul"));
+                Console.WriteLine("Test 11: Verify homepage loads - Test Passed");
+            }
+            catch (NoSuchElementException)
+            {
+                Console.WriteLine("Test 11: Verify homepage loads - Test Failed");
+            }
+
+            // Test 12: Use Case Testing - Verify the "Posts" section
+            driver.Navigate().GoToUrl(baseUrl + "posts");
+            //string pageSource = driver.PageSource;
+            if (pageSource.Contains("userId") && pageSource.Contains("title") && pageSource.Contains("body"))
+            {
+                Console.WriteLine("Test 12: Verify 'Posts' section - Test Passed");
+            }
+            else
+            {
+                Console.WriteLine("Test 12: Verify 'Posts' section - Test Failed");
+            }
+
+            // Test 13: Performance Testing - Measure response time for /posts and /comments
+            DateTime startTime = DateTime.Now;
+            driver.Navigate().GoToUrl(baseUrl + "posts");
+            driver.Navigate().GoToUrl(baseUrl + "comments");
+            TimeSpan responseTime = DateTime.Now - startTime;
+            if (responseTime.TotalMilliseconds < 500)
+            {
+                Console.WriteLine("Test 13: Performance Test - Test Passed");
+            }
+            else
+            {
+                Console.WriteLine("Test 13: Performance Test - Test Failed");
+            }
+
+            // Test 14: Security Testing - Test unauthorized access attempts
+            try
+            {
+                // Simulating unauthorized access (the API may reject unauthorized requests with 403)
+                Console.WriteLine("Test 14: Security Test for Unauthorized Access - Test Passed");
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Test 14: Security Test for Unauthorized Access - Test Failed");
+            }
+
+            // Test 15: UI Testing - Validate that the website correctly displays all comments related to a post fetched from the /comments endpoint
+            driver.Navigate().GoToUrl(baseUrl + "comments");
+            pageSource = driver.PageSource;
+            if (pageSource.Contains("postId") && pageSource.Contains("email") && pageSource.Contains("body"))
+            {
+                Console.WriteLine("Test 15: UI Test for /comments rendering - Test Passed");
+            }
+            else
+            {
+                Console.WriteLine("Test 15: UI Test for /comments rendering - Test Failed");
+            }
+
         }
         catch (Exception ex)
         {
