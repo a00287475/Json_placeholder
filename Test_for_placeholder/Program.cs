@@ -169,7 +169,7 @@ class Program
 
             // Test 12: Use Case Testing - Verify the "Posts" section
             driver.Navigate().GoToUrl(baseUrl + "posts");
-            //string pageSource = driver.PageSource;
+            
             if (pageSource.Contains("userId") && pageSource.Contains("title") && pageSource.Contains("body"))
             {
                 Console.WriteLine("Test 12: Verify 'Posts' section - Test Passed");
